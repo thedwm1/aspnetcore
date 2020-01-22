@@ -119,9 +119,6 @@ namespace Company.WebApplication1
 #else
             services.AddControllersWithViews();
 #endif
-#if (OrganizationalAuth || IndividualAuth)
-           services.AddRazorPages();
-#endif
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
