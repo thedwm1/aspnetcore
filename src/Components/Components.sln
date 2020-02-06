@@ -264,8 +264,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wasm.Authentication.Client"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wasm.Authentication.Shared", "Blazor\testassets\Wasm.Authentication.Shared\Wasm.Authentication.Shared.csproj", "{10B0D065-1539-4168-8BE5-4EE9D623B64F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor.Msal", "Blazor\testassets\Blazor.Msal\Blazor.Msal.csproj", "{D06E79F6-E21B-4A5A-B9DE-A40878DA2351}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1620,18 +1618,6 @@ Global
 		{10B0D065-1539-4168-8BE5-4EE9D623B64F}.Release|x64.Build.0 = Release|Any CPU
 		{10B0D065-1539-4168-8BE5-4EE9D623B64F}.Release|x86.ActiveCfg = Release|Any CPU
 		{10B0D065-1539-4168-8BE5-4EE9D623B64F}.Release|x86.Build.0 = Release|Any CPU
-		{D06E79F6-E21B-4A5A-B9DE-A40878DA2351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D06E79F6-E21B-4A5A-B9DE-A40878DA2351}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D06E79F6-E21B-4A5A-B9DE-A40878DA2351}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{D06E79F6-E21B-4A5A-B9DE-A40878DA2351}.Debug|x64.Build.0 = Debug|Any CPU
-		{D06E79F6-E21B-4A5A-B9DE-A40878DA2351}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D06E79F6-E21B-4A5A-B9DE-A40878DA2351}.Debug|x86.Build.0 = Debug|Any CPU
-		{D06E79F6-E21B-4A5A-B9DE-A40878DA2351}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D06E79F6-E21B-4A5A-B9DE-A40878DA2351}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D06E79F6-E21B-4A5A-B9DE-A40878DA2351}.Release|x64.ActiveCfg = Release|Any CPU
-		{D06E79F6-E21B-4A5A-B9DE-A40878DA2351}.Release|x64.Build.0 = Release|Any CPU
-		{D06E79F6-E21B-4A5A-B9DE-A40878DA2351}.Release|x86.ActiveCfg = Release|Any CPU
-		{D06E79F6-E21B-4A5A-B9DE-A40878DA2351}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1753,7 +1739,6 @@ Global
 		{28808D41-1D1D-42BB-B4FB-0A19F22A2009} = {A7ABAC29-F73F-456D-AE54-46842CFC2E10}
 		{17306B4E-92D6-4279-A1BA-348DADCD280D} = {A7ABAC29-F73F-456D-AE54-46842CFC2E10}
 		{10B0D065-1539-4168-8BE5-4EE9D623B64F} = {A7ABAC29-F73F-456D-AE54-46842CFC2E10}
-		{D06E79F6-E21B-4A5A-B9DE-A40878DA2351} = {A7ABAC29-F73F-456D-AE54-46842CFC2E10}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CC3C47E1-AD1A-4619-9CD3-E08A0148E5CE}

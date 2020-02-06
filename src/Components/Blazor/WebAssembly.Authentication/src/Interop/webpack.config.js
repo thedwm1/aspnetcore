@@ -4,7 +4,7 @@ module.exports = env => {
 
     return {
         entry: './AuthenticationService.ts',
-        devtool: env.production ? 'none' : 'source-map',
+        devtool: env && env.production ? 'none' : 'source-map',
         module: {
             rules: [
                 {

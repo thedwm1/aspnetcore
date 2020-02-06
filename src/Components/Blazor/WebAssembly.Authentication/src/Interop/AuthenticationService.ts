@@ -7,7 +7,7 @@ type ExtendedUserManagerSettings = Writeable<UserManagerSettings & AuthorizeServ
 type OidcAuthorizeServiceSettings = ExtendedUserManagerSettings | ApiAuthorizationSettings;
 
 function isApiAuthorizationSettings(settings: OidcAuthorizeServiceSettings): settings is ApiAuthorizationSettings {
-    return settings.hasOwnProperty('configuration');
+    return settings.hasOwnProperty('configurationEndpoint');
 }
 
 interface AuthorizeServiceSettings {
@@ -15,7 +15,7 @@ interface AuthorizeServiceSettings {
 }
 
 interface ApiAuthorizationSettings {
-    configuration: string;
+    configurationEndpoint: string;
 }
 
 export interface AccessTokenRequestOptions {
@@ -281,9 +281,9 @@ export class AuthenticationService {
     private static async createUserManager(settings: OidcAuthorizeServiceSettings): Promise<UserManager> {
         let finalSettings: UserManagerSettings;
         if (isApiAuthorizationSettings(settings)) {
-            let response = await fetch(settings.configuration);
+            let response = await fetch(settings.configurationEndpoint);
             if (!response.ok) {
-                throw new Error(`Could not load settings from '${settings.configuration}'`);
+                throw new Error(`Could not load settings from '${settings.configurationEndpoint}'`);
             }
 
             const downloadedSettings = await response.json();
