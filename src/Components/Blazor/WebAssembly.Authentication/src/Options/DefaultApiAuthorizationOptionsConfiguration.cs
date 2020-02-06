@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 {
-    internal class DefaultApiAuthorizationOptionsConfiguration : IConfigureOptions<RemoteAuthenticationOptions<ApiAuthorizationProviderOptions>>
+    internal class DefaultApiAuthorizationOptionsConfiguration : IPostConfigureOptions<RemoteAuthenticationOptions<ApiAuthorizationProviderOptions>>
     {
         private readonly string _applicationName;
 
@@ -13,12 +13,20 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
         public void Configure(RemoteAuthenticationOptions<ApiAuthorizationProviderOptions> options)
         {
-            options.ProviderOptions.ClientId = _applicationName;
-            options.AuthenticationPaths.RegisterPath = "Identity/Account/Register";
-            options.AuthenticationPaths.ProfilePath = "Identity/Account/Manage";
-            options.UserOptions.ScopeClaim = "scope";
-            options.UserOptions.RoleClaim = "scope";
-            options.UserOptions.AuthenticationType = _applicationName;
+            options.ProviderOptions.ConfigurationEndpoint ??= $"_configuration/{_applicationName}";
+            options.AuthenticationPaths.RegisterPath ??= "Identity/Account/Register";
+            options.AuthenticationPaths.ProfilePath ??= "Identity/Account/Manage";
+            options.UserOptions.ScopeClaim ??= "scope";
+            options.UserOptions.RoleClaim ??= "scope";
+            options.UserOptions.AuthenticationType??= _applicationName;
+        }
+
+        public void PostConfigure(string name, RemoteAuthenticationOptions<ApiAuthorizationProviderOptions> options)
+        {
+            if (string.Equals(name, Options.DefaultName))
+            {
+                Configure(options);
+            }
         }
     }
 }

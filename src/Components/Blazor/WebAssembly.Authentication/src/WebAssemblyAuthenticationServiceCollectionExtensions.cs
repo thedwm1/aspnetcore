@@ -70,7 +70,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSpaAuthentication<RemoteAuthenticationState, ApiAuthorizationProviderOptions>();
 
             services.TryAddEnumerable(
-                ServiceDescriptor.Singleton<IConfigureOptions<RemoteAuthenticationOptions<ApiAuthorizationProviderOptions>>, DefaultApiAuthorizationOptionsConfiguration>(_ =>
+                ServiceDescriptor.Singleton<IPostConfigureOptions<RemoteAuthenticationOptions<ApiAuthorizationProviderOptions>>, DefaultApiAuthorizationOptionsConfiguration>(_ =>
                 new DefaultApiAuthorizationOptionsConfiguration(inferredClientId)));
 
             return services;
