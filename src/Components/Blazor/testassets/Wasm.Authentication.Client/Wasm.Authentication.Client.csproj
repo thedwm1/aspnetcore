@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazor.Msal\Blazor.Msal.csproj" />
     <ProjectReference Include="..\Wasm.Authentication.Shared\Wasm.Authentication.Shared.csproj" />
   </ItemGroup>
 
