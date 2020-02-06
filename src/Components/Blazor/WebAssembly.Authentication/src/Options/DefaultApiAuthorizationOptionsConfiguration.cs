@@ -9,10 +9,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
     {
         private readonly string _applicationName;
 
-        public DefaultApiAuthorizationOptionsConfiguration(string applicationName)
-        {
-            _applicationName = applicationName;
-        }
+        public DefaultApiAuthorizationOptionsConfiguration(string applicationName) => _applicationName = applicationName;
 
         public void Configure(RemoteAuthenticationOptions<ApiAuthorizationProviderOptions> options)
         {

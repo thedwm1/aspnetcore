@@ -109,7 +109,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         private async Task ProcessLogin(string returnUrl)
         {
             AuthenticationState.ReturnUrl = returnUrl;
-            RemoteAuthenticationResult<TAuthenticationState> result = await AuthenticationService.SignInAsync(new RemoteAuthenticationContext<TAuthenticationState>
+            var result = await AuthenticationService.SignInAsync(new RemoteAuthenticationContext<TAuthenticationState>
             {
                 State = AuthenticationState
             });
@@ -130,8 +130,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
         private async Task ProcessLoginCallback()
         {
-            string url = Navigation.Uri;
-            RemoteAuthenticationResult<TAuthenticationState> result = await AuthenticationService.CompleteSignInAsync(new RemoteAuthenticationContext<TAuthenticationState> { Url = url });
+            var url = Navigation.Uri;
+            var result = await AuthenticationService.CompleteSignInAsync(new RemoteAuthenticationContext<TAuthenticationState> { Url = url });
             switch (result.Status)
             {
                 case RemoteAuthenticationStatus.Redirect:
@@ -155,7 +155,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         {
             AuthenticationState.ReturnUrl = returnUrl;
             var user = await AuthenticationService.GetCurrentUser();
-            bool isauthenticated = user.Identity.IsAuthenticated;
+            var isauthenticated = user.Identity.IsAuthenticated;
 
             if (isauthenticated)
             {
@@ -180,7 +180,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
         private async Task ProcessLogoutCallback()
         {
-            RemoteAuthenticationResult<TAuthenticationState> result = await AuthenticationService.CompleteSignOutAsync(new RemoteAuthenticationContext<TAuthenticationState> { Url = Navigation.Uri });
+            var result = await AuthenticationService.CompleteSignOutAsync(new RemoteAuthenticationContext<TAuthenticationState> { Url = Navigation.Uri });
             switch (result.Status)
             {
                 case RemoteAuthenticationStatus.Redirect:
@@ -202,7 +202,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
         private string GetReturnUrl(TAuthenticationState state, string defaultReturnUrl = null)
         {
-            string fromQuery = GetParameter("returnUrl");
+            var fromQuery = GetParameter("returnUrl");
             if (!string.IsNullOrWhiteSpace(fromQuery) && !fromQuery.StartsWith(Navigation.BaseUri))
             {
                 // This is an extra check to prevent open redirects.
@@ -214,7 +214,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
         private string GetParameter(string key)
         {
-            string queryString = new Uri(Navigation.Uri).Query;
+            var queryString = new Uri(Navigation.Uri).Query;
 
             if (string.IsNullOrEmpty(queryString) || queryString == "?")
             {
@@ -290,8 +290,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             return JS.InvokeVoidAsync("location.replace", registerUrl);
         }
 
-        private ValueTask RedirectToProfile() =>
-            JS.InvokeVoidAsync("location.replace", Navigation.ToAbsoluteUri(ApplicationPaths.ProfilePath).PathAndQuery);
+        private ValueTask RedirectToProfile() => JS.InvokeVoidAsync("location.replace", Navigation.ToAbsoluteUri(ApplicationPaths.ProfilePath).PathAndQuery);
 
         private string GetErrorMessage() => GetParameter("message");
 

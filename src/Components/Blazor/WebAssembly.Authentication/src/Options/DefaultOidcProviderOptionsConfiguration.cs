@@ -10,10 +10,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
     {
         private readonly NavigationManager _navigationManager;
 
-        public DefaultOidcOptionsConfiguration(NavigationManager navigationManager)
-        {
-            _navigationManager = navigationManager;
-        }
+        public DefaultOidcOptionsConfiguration(NavigationManager navigationManager) => _navigationManager = navigationManager;
 
         public void Configure(RemoteAuthenticationOptions<OidcProviderOptions> options)
         {

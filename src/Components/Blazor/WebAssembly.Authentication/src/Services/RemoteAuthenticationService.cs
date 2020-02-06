@@ -13,7 +13,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 {
     public class RemoteAuthenticationService<TRemoteAuthenticationState, TProviderOptions> : AuthenticationStateProvider, IRemoteAuthenticationService<TRemoteAuthenticationState>
          where TRemoteAuthenticationState : RemoteAuthenticationState
-         where TProviderOptions: new()
+         where TProviderOptions : new()
     {
         protected readonly IJSRuntime _jsRuntime;
         protected readonly RemoteAuthenticationOptions<TProviderOptions> _options;
@@ -26,8 +26,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             _options = options.Value;
         }
 
-        public override async Task<AuthenticationState> GetAuthenticationStateAsync() =>
-            new AuthenticationState(await GetCurrentUser());
+        public override async Task<AuthenticationState> GetAuthenticationStateAsync() => new AuthenticationState(await GetCurrentUser());
 
         public virtual async Task<RemoteAuthenticationResult<TRemoteAuthenticationState>> SignInAsync(
             RemoteAuthenticationContext<TRemoteAuthenticationState> context)
@@ -56,10 +55,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         }
 
         public virtual async Task<RemoteAuthenticationResult<TRemoteAuthenticationState>> SignOutAsync(
-            RemoteAuthenticationContext<TRemoteAuthenticationState> context)
-        {
-            return await _jsRuntime.InvokeAsync<RemoteAuthenticationResult<TRemoteAuthenticationState>>("AuthenticationService.signOut", context.State);
-        }
+            RemoteAuthenticationContext<TRemoteAuthenticationState> context) => await _jsRuntime.InvokeAsync<RemoteAuthenticationResult<TRemoteAuthenticationState>>("AuthenticationService.signOut", context.State);
 
         public virtual async Task<RemoteAuthenticationResult<TRemoteAuthenticationState>> CompleteSignOutAsync(
             RemoteAuthenticationContext<TRemoteAuthenticationState> context)
@@ -74,15 +70,9 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             return result;
         }
 
-        public virtual ValueTask<AccessTokenResult> GetAccessToken()
-        {
-            return _jsRuntime.InvokeAsync<AccessTokenResult>("AuthenticationService.getAccessToken");
-        }
+        public virtual ValueTask<AccessTokenResult> GetAccessToken() => _jsRuntime.InvokeAsync<AccessTokenResult>("AuthenticationService.getAccessToken");
 
-        public virtual ValueTask<AccessTokenResult> GetAccessToken(AccessTokenRequestOptions options)
-        {
-            return _jsRuntime.InvokeAsync<AccessTokenResult>("AuthenticationService.getAccessToken", options);
-        }
+        public virtual ValueTask<AccessTokenResult> GetAccessToken(AccessTokenRequestOptions options) => _jsRuntime.InvokeAsync<AccessTokenResult>("AuthenticationService.getAccessToken", options);
 
         public virtual async Task<ClaimsPrincipal> GetCurrentUser()
         {
@@ -140,8 +130,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         {
             NotifyAuthenticationStateChanged(UpdateAuthenticationState(task));
 
-            static async Task<AuthenticationState> UpdateAuthenticationState(Task<ClaimsPrincipal> futureUser) =>
-                new AuthenticationState(await futureUser);
+            static async Task<AuthenticationState> UpdateAuthenticationState(Task<ClaimsPrincipal> futureUser) => new AuthenticationState(await futureUser);
         }
     }
 }

@@ -15,7 +15,6 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
         public const string LogoutFailed = "logout-failed";
         public const string LogoutSucceeded = "logged-out";
 
-        public static bool IsAction(string action, string candidate) =>
-            action != null && string.Equals(action, candidate, System.StringComparison.OrdinalIgnoreCase);
+        public static bool IsAction(string action, string candidate) => action != null && string.Equals(action, candidate, System.StringComparison.OrdinalIgnoreCase);
     }
 }

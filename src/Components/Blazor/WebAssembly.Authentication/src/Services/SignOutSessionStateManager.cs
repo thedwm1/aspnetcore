@@ -18,10 +18,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
         public bool ValidSignOutState { get; set; } = false;
 
-        public SignOutSessionStateManager(IJSRuntime jsRuntime)
-        {
-            _jsRuntime = jsRuntime;
-        }
+        public SignOutSessionStateManager(IJSRuntime jsRuntime) => _jsRuntime = jsRuntime;
 
         public ValueTask SetSignOutState()
         {
