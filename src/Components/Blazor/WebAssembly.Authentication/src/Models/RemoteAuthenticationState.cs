@@ -3,8 +3,15 @@
 
 namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 {
+    /// <summary>
+    /// Represents the minimal amount of authentication state to be preserved during authentication operations.
+    /// </summary>
     public class RemoteAuthenticationState
     {
+        /// <summary>
+        /// Gets or sets the return url to redirect the application to after a successful authentication operation.
+        /// It must be a url within the page.
+        /// </summary>
         public string ReturnUrl { get; set; }
     }
 }

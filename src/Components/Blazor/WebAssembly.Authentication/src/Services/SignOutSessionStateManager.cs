@@ -7,27 +7,42 @@ using Microsoft.JSInterop;
 
 namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 {
+    /// <summary>
+    /// Handles CSRF protection for the logout endpoint.
+    /// </summary>
     public class SignOutSessionStateManager
     {
         private readonly IJSRuntime _jsRuntime;
-        private static readonly JsonSerializerOptions SerializationOptions = new JsonSerializerOptions
+        private static readonly JsonSerializerOptions _serializationOptions = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             PropertyNameCaseInsensitive = true,
         };
 
-        public bool ValidSignOutState { get; set; } = false;
+        /// <summary>
+        /// Gets the validity of the sign out state.
+        /// </summary>
+        public bool ValidSignOutState { get; private set; } = false;
 
         public SignOutSessionStateManager(IJSRuntime jsRuntime) => _jsRuntime = jsRuntime;
 
+        /// <summary>
+        /// Sets up some state in session storage to allow for logouts from within the <see cref="RemoteAuthenticationDefaults.LogoutPath"/> page.
+        /// </summary>
+        /// <returns>A <see cref="ValueTask"/> that completes when the state has been saved to session storage.</returns>
         public ValueTask SetSignOutState()
         {
             return _jsRuntime.InvokeVoidAsync(
                 "sessionStorage.setItem",
                 "Microsoft.AspNetCore.Components.WebAssembly.Authentication.SignOutState",
-                JsonSerializer.Serialize(SignOutState.Instance, SerializationOptions));
+                JsonSerializer.Serialize(SignOutState.Instance, _serializationOptions));
         }
 
+        /// <summary>
+        /// Validates the existence of some state previously setup by <see cref="SetSignOutState"/> in session storage to allow
+        /// logouts from within the <see cref="RemoteAuthenticationDefaults.LogoutPath"/> page.
+        /// </summary>
+        /// <returns>A <see cref="ValueTask{bool}"/> that completes when the state has been validated and indicates the validity of the state.</returns>
         public async Task<bool> ValidateSignOutState()
         {
             var state = await GetSignOutState();
@@ -50,7 +65,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
                 return default;
             }
 
-            return JsonSerializer.Deserialize<SignOutState>(result, SerializationOptions);
+            return JsonSerializer.Deserialize<SignOutState>(result, _serializationOptions);
         }
 
         private ValueTask ClearSignOutState()

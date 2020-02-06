@@ -8,36 +8,80 @@ using Microsoft.JSInterop;
 
 namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 {
+    /// <summary>
+    /// A component that handles remote authentication operations in an application.
+    /// </summary>
+    /// <typeparam name="TAuthenticationState">The user state type persisted while the operation is in progress. It must be serializable.</typeparam>
     public class AuthenticationManager<TAuthenticationState> : ComponentBase where TAuthenticationState : RemoteAuthenticationState
     {
         private string _message;
 
+        /// <summary>
+        /// Gets or sets the <see cref="RemoteAuthenticationActions"/> action the component needs to handle.
+        /// </summary>
         [Parameter] public string Action { get; set; }
 
+        /// <summary>
+        /// Gets or sets the <typeparamref name="TAuthenticationState"/> to be preserved during the authentication operation.
+        /// </summary>
         [Parameter] public TAuthenticationState AuthenticationState { get; set; }
 
+        /// <summary>
+        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.Login"/> is being handled.
+        /// </summary>
         [Parameter] public RenderFragment LoginFragment { get; set; } = DefaultLoginFragment;
 
+        /// <summary>
+        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LoginCallback"/> is being handled.
+        /// </summary>
         [Parameter] public RenderFragment LoginCallbackFragment { get; set; } = DefaultLoginCallbackFragment;
 
+        /// <summary>
+        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LoginFailed"/> is being handled.
+        /// </summary>
         [Parameter] public RenderFragment<string> LoginFailedFragment { get; set; } = DefaultLoginFailedFragment;
 
+        /// <summary>
+        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.Logout"/> is being handled.
+        /// </summary>
         [Parameter] public RenderFragment LogoutFragment { get; set; } = DefaultLogoutFragment;
 
+        /// <summary>
+        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LogoutCallback"/> is being handled.
+        /// </summary>
         [Parameter] public RenderFragment LogoutCallbackFragment { get; set; } = DefaultLogoutCallbackFragment;
 
+        /// <summary>
+        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LogoutFailed"/> is being handled.
+        /// </summary>
         [Parameter] public RenderFragment<string> LogoutFailedFragment { get; set; } = DefaultLogoutFailedFragment;
 
+        /// <summary>
+        /// Gets or sets a <see cref="RenderFragment"/> with the UI to display while <see cref="RemoteAuthenticationActions.LogoutSucceeded"/> is being handled.
+        /// </summary>
         [Parameter] public RenderFragment LoggedOutFragment { get; set; } = DefaultLoggedOutFragment;
 
+        /// <summary>
+        /// Gets or sets the <see cref="IJSRuntime"/> to use for performin JavaScript interop.
+        /// </summary>
         [Inject] public IJSRuntime JS { get; set; }
 
+        /// <summary>
+        /// Gets or sets the <see cref="NavigationManager"/> to use for redirecting the browser.
+        /// </summary>
         [Inject] public NavigationManager Navigation { get; set; }
 
+        /// <summary>
+        /// Gets or sets the <see cref="IRemoteAuthenticationService{TRemoteAuthenticationState}"/> to use for handling the underlying authentication protocol.
+        /// </summary>
         [Inject] public IRemoteAuthenticationService<TAuthenticationState> AuthenticationService { get; set; }
 
+        /// <summary>
+        /// Gets or sets the <see cref="RemoteAuthenticationApplicationPathsOptions"/> with the paths to different authentication pages.
+        /// </summary>
         [Parameter] public RemoteAuthenticationApplicationPathsOptions ApplicationPaths { get; set; }
 
+        /// <inheritdoc />
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             base.BuildRenderTree(builder);
@@ -71,6 +115,7 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
             }
         }
 
+        /// <inheritdoc />
         protected override async Task OnParametersSetAsync()
         {
             switch (Action)

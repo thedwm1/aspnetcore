@@ -2,6 +2,22 @@ import { UserManager, UserManagerSettings, User } from 'oidc-client'
 
 type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 
+type ExtendedUserManagerSettings = Writeable<UserManagerSettings & AuthorizeServiceSettings>
+
+type OidcAuthorizeServiceSettings = ExtendedUserManagerSettings | ApiAuthorizationSettings;
+
+function isApiAuthorizationSettings(settings: OidcAuthorizeServiceSettings): settings is ApiAuthorizationSettings {
+    return settings.hasOwnProperty('configuration');
+}
+
+interface AuthorizeServiceSettings {
+    defaultScopes: string[];
+}
+
+interface ApiAuthorizationSettings {
+    configuration: string;
+}
+
 export interface AccessTokenRequestOptions {
     scopes: string[];
     returnUrl: string;
@@ -262,11 +278,12 @@ export class AuthenticationService {
         return AuthenticationService.instance.completeSignOut(url);
     }
 
-    private static async createUserManager(settings: Writeable<UserManagerSettings & AuthorizeServiceSettings>): Promise<UserManager> {
-        if (!settings.authority) {
-            let response = await fetch(`/_configuration/${settings.client_id}`);
+    private static async createUserManager(settings: OidcAuthorizeServiceSettings): Promise<UserManager> {
+        let finalSettings: UserManagerSettings;
+        if (isApiAuthorizationSettings(settings)) {
+            let response = await fetch(settings.configuration);
             if (!response.ok) {
-                throw new Error(`Could not load settings for '${settings.client_id}'`);
+                throw new Error(`Could not load settings from '${settings.configuration}'`);
             }
 
             const downloadedSettings = await response.json();
@@ -276,14 +293,16 @@ export class AuthenticationService {
             downloadedSettings.automaticSilentRenew = true;
             downloadedSettings.includeIdTokenInSilentRenew = true;
 
-            settings = downloadedSettings;
+            finalSettings = downloadedSettings;
+        } else {
+            if (!settings.scope) {
+                settings.scope = settings.defaultScopes.join(' ');
+            }
+
+            finalSettings = settings;
         }
 
-        if (!settings.scope) {
-            settings.scope = settings.defaultScopes.join(' ');
-        }
-
-        const userManager = new UserManager(settings);
+        const userManager = new UserManager(finalSettings);
 
         userManager.events.addUserSignedOut(async () => {
             await userManager.removeUser();
@@ -292,12 +311,6 @@ export class AuthenticationService {
         return userManager;
     }
 }
-
-
-interface AuthorizeServiceSettings {
-    defaultScopes: string[];
-}
-
 
 declare global {
     interface Window { AuthenticationService: AuthenticationService; }

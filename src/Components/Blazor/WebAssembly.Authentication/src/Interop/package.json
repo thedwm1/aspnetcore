@@ -4,7 +4,7 @@
   "description": "Interop layer for Microsoft.AspNetCore.Components.WebAssembly.Authentication",
   "scripts": {
     "build": "npm run build:release",
-    "build:release": "webpack --mode production",
+    "build:release": "webpack --mode production --env.production",
     "build:debug": "webpack --mode development",
     "watch": "webpack --watch --mode development"
   },

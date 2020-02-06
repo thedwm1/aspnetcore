@@ -3,8 +3,14 @@
 
 namespace Microsoft.AspNetCore.Components.WebAssembly.Authentication
 {
-    public class ApiAuthorizationProviderOptions : OidcProviderOptions
+    /// <summary>
+    /// Represents the options to configure for applications relying on a server for configuration.
+    /// </summary>
+    public class ApiAuthorizationProviderOptions
     {
+        /// <summary>
+        /// Gets or sets the endpoint to call to retrieve the authentication settings for the application.
+        /// </summary>
         public string ConfigurationEndpoint { get; set; }
     }
 }
